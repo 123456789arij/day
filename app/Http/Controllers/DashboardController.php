@@ -16,30 +16,22 @@ class DashboardController extends Controller
     public function index(User $user)
     {
 
- /*       $user = User::get();
+        /*       $user = User::get();
 
-        $user->count();*/
+               $user->count();*/
 
-      $user = DB::table('users')->where('role_id', 1)->count();
-        return view('dashbord',compact('user'));
+        $user = DB::table('users')->where('role_id', 1)->count();
+        return view('dashbord', compact('user'));
     }
 
 
-
-
-
-
-    public function nombre( Employee  $emp)
+    public function nombre(Employee $emp)
     {
         $emp = Employee::count();
         /*  'comments' => Comment::count(),
           'events' => Event::count(),*/
         return view('home', compact('emp'));
     }
-
-
-
-
 
 
     /**
@@ -55,7 +47,7 @@ class DashboardController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -66,7 +58,7 @@ class DashboardController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -77,7 +69,7 @@ class DashboardController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -88,8 +80,8 @@ class DashboardController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -100,7 +92,7 @@ class DashboardController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

@@ -58,20 +58,43 @@ Route::group(['middleware' => ['web', 'auth']], function(){
 //package
     Route::get('/superAdmin/Package', 'SuperAdmin\PackageController@index')->name('superAdmin.Package.index');
 
-//Entreprise
+//Projet
     Route::get('/Entreprise/projet', 'Entreprise\ProjetController@index')->name('projet.index');
+    Route::get('/Entreprise/projet/show', 'Entreprise\ProjetController@home')->name('projet.home');
     Route::get('/Entreprise/projet/create', 'Entreprise\ProjetController@create')->name('projet.create');
     Route::post('/Entreprise/projet/store', 'Entreprise\ProjetController@store')->name('projet.store');
+
+    Route::delete('/Entreprise/projet/destroy/{projet}', 'Entreprise\ProjetController@destroy')->name('projet.destroy');
+
+    //.store pour la création du  projet
+  Route::post('/Entreprise/projet/categorie/store', 'Entreprise\ProjetController@afficher')->name('projet.afficher');
+//Categorie
+/*    Route::get('/Entreprise/categorie', 'Entreprise\CategorieController@index')->name('categorie.index');
+
+    Route::get('/Entreprise/categorie/create', 'Entreprise\CategorieController@create')->name('categorie.create');
+    Route::post('/Entreprise/categorie/store', 'Entreprise\CategorieController@store')->name('categorie.store');
+
+    Route::delete('/categoriedestroy/{categorie}', 'CategorieController@destroy')->name('categorie.destroy');*/
+
 //Tâche
 
     Route::get('/Entreprise/tache', 'Entreprise\TacheController@index')->name('tache.index');
     Route::get('/Entreprise/tache/create', 'Entreprise\TacheController@create')->name('tache.create');
     Route::post('/Entreprise/tache/store', 'Entreprise\TacheController@store')->name('tache.store');
 
-//client
+    Route::post('storeImages', 'Entreprise\TacheController@uploadImages')->name('tache.uploadImages');
+
+  /*  Route::post('deleteImages', 'Entreprise\TacheController@deleteImage')->name('tache.deleteImage');*/
+
+
+
+
+
+    //client
     Route::get('/Entreprise/client', 'Entreprise\ClientController@index')->name('client.index');
     Route::get('/Entreprise/client/create', 'Entreprise\ClientController@create')->name('client.create');
     Route::post('/Entreprise/client/store', 'Entreprise\ClientController@store')->name('client.store');
+
 
 
 

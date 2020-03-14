@@ -29,7 +29,7 @@
                         </div><br />
                     @endif
 
-                    <form method="POST"  action="{{ route('superAdmin.Entreprise.store') }}" >
+                    <form method="POST"  action="{{ route('categorie.store') }}" >
 
                         <div class="form-group">
                             @csrf

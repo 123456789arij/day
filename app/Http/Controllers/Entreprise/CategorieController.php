@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Entreprise;
 
+use App\Categorie;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class CategorieController extends Controller
@@ -11,10 +13,13 @@ class CategorieController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+
+  public function index()
     {
-      return view('Entreprise.Categorie.create');
+
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -23,7 +28,7 @@ class CategorieController extends Controller
      */
     public function create()
     {
-        //
+        return view('Entreprise.projet.create');
     }
 
     /**
@@ -34,7 +39,7 @@ class CategorieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**

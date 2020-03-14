@@ -1,53 +1,27 @@
 @extends('layouts.app')
 
-@section('stylesheet')
-
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-        tinymce.init({
-            selector:'textarea',
-            plugins: 'link code',
-            plugins: "fullscreen",
-            menubar:false,
-          //  toolbar: "fullscreen",
-    });
-
-  //      tinymce.activeEditor.execCommand('mceFullScreen');
-
-    </script>
-
-@endsection
-
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
+@section('stylesheet')
+@endsection
+<div class=" container">
+        <div class="row justify-content ">
 
             @include('includes.profile_sidbar')
 
-            <div class="col-md-9">
-                <div class="card">
+            <div class="col-md-9 container" >
+                <div class="card ">
                     <header class="card-header">
                         <p> Nouvelle Tâche </p>
 
                     </header>
 
 
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+                    @if(Session::has('success'))
+                        <div class="alert alert-success">
+                            {{Session::get('success')}}
                         </div>
                     @endif
-                    {{--     @if ($errors->any())
-                             <div class="alert alert-danger">
-                                 <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                 <ul>
-                                     @foreach ($errors->all() as $error)
-                                         <li>{{ $error }}</li>
-                                     @endforeach
-                                 </ul>
-                             </div>
-                         @endif
- --}}
+
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
@@ -58,28 +32,30 @@
                         </div><br />
                     @endif
 
-                    <form method="POST"  action="{{ route('tache.store') }}" >
+                    <form method="POST"  action="{{ route('tache.store') }}" class="container" >
 
-                        <div class="form-group">
+                        <div class="form-group ">
                             @csrf
-                            <label for="name"><strong>Projet </strong></label>
-                            <input type="text" class="form-control" id="name" name="name" required  >
-                        </div>
 
+                            <div class="form-group" for="projet_id">
+                                <label ><strong>Projet </strong></label>
+                                <select class="form-control"  name="projet_id"  id="projet_id">
+                                    <option value="">select projet</option>
+                                    @foreach( $projets as $projet )
+                                        <option value="{{$projet->id}}"> {{$projet->name}} </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                        <div class="form-group">
                             <label ><strong>Catégories du Tâche</strong></label>
-                            <button class="btn btn" style="font-size: 15px; color: #0e84b5;border: 1px solid #0e84b5 "><i class="fa fa-plus" style="font-size:15px"></i><strong> Ajouter Catégories du Tâche </strong> </button>
+                            <button class="btn btn" style="font-size: 15px; color: #0e84b5;border: 1px solid #0e84b5 ">
+                                <i class="fa fa-plus" style="font-size:15px"></i><strong> Ajouter Catégories du Tâche </strong> </button>
+                        </div>
+                        <div class="form-group">
+                            <label for="name"><strong>titre</strong></label>
+                            <input type="text" class="form-control" id="titre" name="titre" required  >
                         </div>
 
-                        <div class="form-group">
-                            <label for="password"><strong>Priorité </strong></label>
-                            <select class="form-control" name="sex"  id="sex"  required>
-                                <option value="">Choose....</option>
-                                <option value="homme" @if (old('sex') == 'homme') selected="selected" @endif>Laravel</option>
-                                <option value="femme" @if (old('sex') == 'femme') selected="selected" @endif>Symfony4 </option>
-                            </select>
-                        </div>
 
 
                         <div class="form-group">
@@ -87,15 +63,54 @@
                             <textarea class="form-control" id="textarea" name="description" ></textarea>
                         </div>
 
-                        <div class="form-group">
-                            <label for="password"><strong>Assigned To</strong></label>
-                            <select  class="form-control select2"  name="employe">
-                                @foreach($emp as $value)
-                                    <option>{{$value->nom}}</option>
-                                @endforeach
 
-                            </select>
+                    <div  class="form-group" >
+
+                        <label for="priorite" >
+                            <strong> priorité </strong>
+                        </label>
+                        <div class="form-check" style="color: #fec107; font-size: 20px;">
+                            <input class="form-check-input" type="radio" name="priorite"
+                                   value="moyenne"  @if (old('priorite')=="moyenne")  checked @endif >
+                            <label class="form-check-label" >
+                                moyenne
+                            </label>
                         </div>
+                        <div class="form-check" style="color:#00c292; font-size: 20px;">
+                            <input class="form-check-input" type="radio" name="priorite"  value="facile"
+                                   @if (old('priorite')=="facile")  checked @endif >
+                            <label class="form-check-label" >
+                                facile
+                            </label>
+                        </div>
+
+                    <div class="form-check"style="color: tomato; font-size: 20px;">
+                            <input class="form-check-input" type="radio" name="priorite"
+                                   value="difficile"  @if (old('priorite') == "difficile") checked @endif >
+                            <label class="form-check-label" for="exampleRadios3">
+                                difficile
+                            </label>
+                        </div>
+
+                </div>
+
+
+                <div class="form-group">
+               <h5 class="text-center font-weight-bold">Laravel 6 Multiple Images Upload Using Dropzone</h5>
+               <form></form>
+
+                    <form method="post" action="{{route('tache.uploadImages')}}" class="dropzone" id="my-awesome-dropzone" >
+                        @csrf
+
+                    </form>
+
+{{-- id="dropzone"--}}
+
+
+
+
+                </div>
+
 
 
 
@@ -108,4 +123,12 @@
             </div>
         </div>
     </div>
+@section('desc')
+
+
 @endsection
+@endsection
+{{--
+</body>
+</html>
+--}}

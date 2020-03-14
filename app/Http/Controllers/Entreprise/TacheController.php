@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Entreprise;
 
 use App\Http\Controllers\Controller;
+use App\Projet;
+use App\Tache;
 use Illuminate\Http\Request;
 
 class TacheController extends Controller
@@ -24,7 +26,9 @@ class TacheController extends Controller
      */
     public function create()
     {
-        return view('Entreprise.tache.create');
+        $projets=Projet::all();
+        $taches=Tache::all();
+        return view('Entreprise.tache.create',compact('projets','taches'));
     }
 
     /**
@@ -35,7 +39,16 @@ class TacheController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'titre' =>'required',
+            'description' =>'required',
+            'projet_id' =>'required',
+            'priorite' =>'required',
+            'image_name'=>'required',
+        ]);
+
+     Tache::create($request-> all());
+        return redirect()->route('tache.index')->with('success', '  Tache  is successfully saved');
     }
 
     /**
@@ -82,4 +95,42 @@ class TacheController extends Controller
     {
         //
     }
+
+    // ------------------------ [ Upload Image ] --------------------------
+
+    public function uploadImages(Request $request) {
+        $image = $request->file('file');
+        $imageName = $image->getClientOriginalName();
+        // Define upload path
+        $destinationPath = public_path('images'); // upload path
+        $image->move($destinationPath,  $imageName);
+
+        /*    $data  =  Tache::create(['image_name' => $imageName]);*/
+        // Save In Database
+        $imagemodel= new Tache();
+        $imagemodel->image_name=" $imageName";
+        $imagemodel->save();
+
+        return response()->json(['success'=> $imageName]);
+    }
+
+// --------------------- [ Delete image ] -----------------------------
+
+    public function deleteImage(Request $request) {
+        $image = $request->file('filename');
+        $filename =  $request->get('filename').'.jpeg';
+        Tache::where('image_name', $filename)->delete();
+        $path = public_path().'/images/'.$filename;
+        if (file_exists($path)) {
+            unlink($path);
+        }
+        return $filename;
+    }
+
+
+
+
+
+
+
 }

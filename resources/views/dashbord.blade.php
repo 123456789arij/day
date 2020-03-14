@@ -32,3 +32,9 @@
         </div>
     </div>
 @endsection
+
+@section('scripts')
+<script>
+    console.log('here')
+</script>
+@endsection
