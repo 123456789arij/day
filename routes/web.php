@@ -19,16 +19,26 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::prefix('employee')->group(function () {
+    Route::get('/login', 'Auth\EmployeeController@showLoginForm')->name('employee.login');
+    Route::post('/login', 'Auth\EmployeeController@login')->name('employee.login.submit');
+    Route::get('logout/', 'Auth\EmployeeController@logout')->name('employee.logout');
 
-Route::group(['middleware' => ['web', 'auth']], function(){
+    Route::group(['middleware' => 'auth.employee'], function () {
+        Route::get('/tasks', 'TaskController@index')->name('employee.tasks');
+    });
+});
 
-    Route::get('/dashbord', function(){
+Route::group(['middleware' => ['web', 'auth']], function () {
 
-        if(Auth::user()->role_id ==1){
+    Route::get('/dashbord', function () {
+
+        if (Auth::user()->role_id == 1) {
             return view('Entreprise');
-        }elseif(Auth::user()->role_id == 0){
+        } elseif (Auth::user()->role_id == 0) {
             return view('superAdmin');
-        }});
+        }
+    });
 
     // Dashboard
     Route::get('/index', 'DashboardController@index')->name('dashbord');
@@ -42,8 +52,8 @@ Route::group(['middleware' => ['web', 'auth']], function(){
     Route::get('/superAdmin/create', 'SuperAdminController@create')->name('superAdmin.create');
     Route::post('/superAdmin/store', 'SuperAdminController@store')->name('superAdmin.store');
 
-    Route::get('/superAdminEdit/{user}/edit','SuperAdminController@edit')->name('superAdmin.edit');
-    Route::patch('/superAdminupdate/{user}','SuperAdminController@update')->name('superAdmin.update');
+    Route::get('/superAdminEdit/{user}/edit', 'SuperAdminController@edit')->name('superAdmin.edit');
+    Route::patch('/superAdminupdate/{user}', 'SuperAdminController@update')->name('superAdmin.update');
 
 
 // superAdmin Entreprise
@@ -51,8 +61,8 @@ Route::group(['middleware' => ['web', 'auth']], function(){
     Route::get('/superAdmin/Entreprise/create', 'SuperAdmin\EntrepriseController@create')->name('superAdmin.Entreprise.create');
     Route::post('/superAdmin/Entreprise/store', 'SuperAdmin\EntrepriseController@store')->name('superAdmin.Entreprise.store');
 //****************
-    Route::get('/superAdminEdit/{Entreprise}/edit','SuperAdmin\EntrepriseController@edit')->name('superAdmin.Entreprise.edit');
-    Route::patch('/superAdminupdate/{Entreprise}','SuperAdmin\EntrepriseController@update')->name('superAdmin.Entreprise.update');
+    Route::get('/superAdminEdit/{Entreprise}/edit', 'SuperAdmin\EntrepriseController@edit')->name('superAdmin.Entreprise.edit');
+    Route::patch('/superAdminupdate/{Entreprise}', 'SuperAdmin\EntrepriseController@update')->name('superAdmin.Entreprise.update');
     Route::delete('/superAdmindestroy/{Entreprise}', 'SuperAdmin\EntrepriseController@destroy')->name('superAdmin.Entreprise.destroy');
 
 //package
@@ -67,14 +77,14 @@ Route::group(['middleware' => ['web', 'auth']], function(){
     Route::delete('/Entreprise/projet/destroy/{projet}', 'Entreprise\ProjetController@destroy')->name('projet.destroy');
 
     //.store pour la création du  projet
-  Route::post('/Entreprise/projet/categorie/store', 'Entreprise\ProjetController@afficher')->name('projet.afficher');
+    Route::post('/Entreprise/projet/categorie/store', 'Entreprise\ProjetController@afficher')->name('projet.afficher');
 //Categorie
-/*    Route::get('/Entreprise/categorie', 'Entreprise\CategorieController@index')->name('categorie.index');
+    /*    Route::get('/Entreprise/categorie', 'Entreprise\CategorieController@index')->name('categorie.index');
 
-    Route::get('/Entreprise/categorie/create', 'Entreprise\CategorieController@create')->name('categorie.create');
-    Route::post('/Entreprise/categorie/store', 'Entreprise\CategorieController@store')->name('categorie.store');
+        Route::get('/Entreprise/categorie/create', 'Entreprise\CategorieController@create')->name('categorie.create');
+        Route::post('/Entreprise/categorie/store', 'Entreprise\CategorieController@store')->name('categorie.store');
 
-    Route::delete('/categoriedestroy/{categorie}', 'CategorieController@destroy')->name('categorie.destroy');*/
+        Route::delete('/categoriedestroy/{categorie}', 'CategorieController@destroy')->name('categorie.destroy');*/
 
 //Tâche
 
@@ -84,24 +94,13 @@ Route::group(['middleware' => ['web', 'auth']], function(){
 
     Route::post('storeImages', 'Entreprise\TacheController@uploadImages')->name('tache.uploadImages');
 
-  /*  Route::post('deleteImages', 'Entreprise\TacheController@deleteImage')->name('tache.deleteImage');*/
-
-
-
+    /*  Route::post('deleteImages', 'Entreprise\TacheController@deleteImage')->name('tache.deleteImage');*/
 
 
     //client
     Route::get('/Entreprise/client', 'Entreprise\ClientController@index')->name('client.index');
     Route::get('/Entreprise/client/create', 'Entreprise\ClientController@create')->name('client.create');
     Route::post('/Entreprise/client/store', 'Entreprise\ClientController@store')->name('client.store');
-
-
-
-
-
-
-
-
 
 
 });
