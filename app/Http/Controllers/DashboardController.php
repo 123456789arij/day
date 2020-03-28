@@ -28,6 +28,7 @@ class DashboardController extends Controller
     public function nombre(Employee $emp)
     {
         $emp = Employee::count();
+
         /*  'comments' => Comment::count(),
           'events' => Event::count(),*/
         return view('home', compact('emp'));

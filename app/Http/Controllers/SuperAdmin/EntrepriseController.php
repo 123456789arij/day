@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Gate;
+
 class EntrepriseController extends Controller
 {
     /**
@@ -18,7 +19,7 @@ class EntrepriseController extends Controller
     public function index()
     {
         $users = DB::select('select * from users where role_id = :id', ['id' => 1]);
-        return view('superAdmin.Entreprise.index',compact('users'));
+        return view('superAdmin.Entreprise.index', compact('users'));
     }
 
     /**
@@ -28,7 +29,7 @@ class EntrepriseController extends Controller
      */
     public function create()
     {
-        if(Gate::denies('edit-Entreprise')){
+        if (Gate::denies('edit-Entreprise')) {
             redirect()->route('superAdmin.Entreprise.index');
         }
         return view('SuperAdmin.Entreprise.create');
@@ -37,31 +38,31 @@ class EntrepriseController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $request->validate([
-            'name' =>'required',
-            'email' =>'required',
+            'name' => 'required',
+            'email' => 'required',
             'password' => 'required', 'string', 'min:6',
-         // 'role_id'=>'required',
+            // 'role_id'=>'required',
         ]);
 
         User::create([
             'name' => $request['name'],
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
-            'role_id'=>'1',
-        ]) ;
+            'role_id' => '1',
+        ]);
         return redirect()->route('superAdmin.Entreprise.index')->with('success', '  Entreprise is successfully saved');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -72,30 +73,30 @@ class EntrepriseController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
     {
-        if(Gate::denies('edit-Entreprise')){
+        if (Gate::denies('edit-Entreprise')) {
             redirect()->route('superAdmin.Entreprise.index');
         }
-        return view('superAdmin.Entreprise.edit',compact('user'));
+        return view('superAdmin.Entreprise.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user)
     {
         // $hashed = Hash::make('password');
         $request->validate([
-            'nom' =>'required',
-            'email' =>'required',
+            'nom' => 'required',
+            'email' => 'required',
             'password' => 'required', 'string', 'min:6',
         ]);
 
@@ -106,27 +107,22 @@ class EntrepriseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user ,$id)
+    public function destroy(User $user, $id)
     {
 
-        if(Gate::denies('destroy-Entreprise')){
-            redirect()->route('superAdmin.Entreprise.index');
-            }
-        $user= User::findOrFail($id);
-     if($user ->delete())
-     {
-         return redirect()->route('superAdmin.Entreprise.index')->with('success', 'Entreprise is successfully deleted');
+        /*    if(Gate::denies('destroy-Entreprise')){
+                redirect()->route('superAdmin.Entreprise.index');
+                }*/
+
+        $user = User::findOrFail($id);
+        if ($user->delete()) {
+            return redirect()->route('superAdmin.Entreprise.index')->with('success', 'Entreprise is successfully deleted');
         }
-     return back()->withInput()->with('error','Entreprise can not be deleted');
-}
-
-
-
-
-
+        return back()->withInput()->with('error', 'Entreprise can not be deleted');
+    }
 
 
 }

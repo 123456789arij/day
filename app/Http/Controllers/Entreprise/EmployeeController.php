@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Entreprise;
 
+use App\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
@@ -14,7 +17,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        $employees  = DB::table('employees')->paginate(2);
+        return view('Entreprise.Employee.index',compact('employees'));
     }
 
     /**
@@ -24,7 +28,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        return view('Entreprise.Employee.create');
     }
 
     /**
@@ -35,7 +39,22 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' =>'required',
+            'email' =>'required',
+            'password' => 'required', 'string', 'min:6',
+            'role'=>'required',
+        ]);
+/*        Employee::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+            'role' => $request['role'],
+
+        ]) ;*/
+
+       Employee::create($request-> all());
+        return redirect()->route('Entreprise.Employee.index')->with('toast_success', 'Employee is successfully saved');
     }
 
     /**
@@ -44,9 +63,9 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Employee $employee)
     {
-        //
+        return view('Entreprise.Employee.show',compact('employee'));
     }
 
     /**
@@ -55,9 +74,9 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Employee $employee)
     {
-        //
+        return view('Entreprise.Employee.edit',compact('employee'));
     }
 
     /**
@@ -67,9 +86,17 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Employee $employee)
     {
-        //
+        $request->validate([
+            'name' =>'required',
+            'email' =>'required',
+            'password' => 'required', 'string', 'min:6',
+            'role'=>'required',
+        ]);
+
+        $employee->update($request->all());
+        return redirect()->route('Entreprise.Employee.index')->with('toast_success', 'Employee is successfully updated');
     }
 
     /**
@@ -78,8 +105,9 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Employee $employee)
     {
-        //
+        $employee->delete();
+        return redirect()->route('Entreprise.Employee.index')->with('delete', 'Employee  is successfully deleted');
     }
 }

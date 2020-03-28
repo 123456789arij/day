@@ -14,7 +14,7 @@ class Employee extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'email', 'address', 'password',
+        'name','email', 'password','role',
     ];
 
     /**
@@ -25,4 +25,19 @@ class Employee extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
+
+
+
+
+
+
+
+
+
+
 }

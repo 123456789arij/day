@@ -18,16 +18,17 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
+//Employee login
 Route::prefix('employee')->group(function () {
     Route::get('/login', 'Auth\EmployeeController@showLoginForm')->name('employee.login');
     Route::post('/login', 'Auth\EmployeeController@login')->name('employee.login.submit');
-    Route::get('logout/', 'Auth\EmployeeController@logout')->name('employee.logout');
+    Route::post('logout/', 'Auth\EmployeeController@logout')->name('employee.logout');
 
     Route::group(['middleware' => 'auth.employee'], function () {
-        Route::get('/tasks', 'TaskController@index')->name('employee.tasks');
+        Route::get('/tasks', 'employee\TaskController@index')->name('employee.tasks');
     });
 });
+
 
 Route::group(['middleware' => ['web', 'auth']], function () {
 
@@ -43,9 +44,6 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     // Dashboard
     Route::get('/index', 'DashboardController@index')->name('dashbord');
 
-//Employee
-    Route::get('/employee/create', 'EmployeeController@create')->name('Employeer.create');
-    Route::post('/employeestore', 'EmployeeController@store')->name('Entreprise.Employeer.store');
 
 //superAdmin
     Route::get('/superAdmin', 'SuperAdminController@index')->name('superAdmin.index');
@@ -91,7 +89,6 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/Entreprise/tache', 'Entreprise\TacheController@index')->name('tache.index');
     Route::get('/Entreprise/tache/create', 'Entreprise\TacheController@create')->name('tache.create');
     Route::post('/Entreprise/tache/store', 'Entreprise\TacheController@store')->name('tache.store');
-
     Route::post('storeImages', 'Entreprise\TacheController@uploadImages')->name('tache.uploadImages');
 
     /*  Route::post('deleteImages', 'Entreprise\TacheController@deleteImage')->name('tache.deleteImage');*/
@@ -101,6 +98,17 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/Entreprise/client', 'Entreprise\ClientController@index')->name('client.index');
     Route::get('/Entreprise/client/create', 'Entreprise\ClientController@create')->name('client.create');
     Route::post('/Entreprise/client/store', 'Entreprise\ClientController@store')->name('client.store');
+//Entreprise Employee
 
+    Route::get('/Entreprise/Employee', 'Entreprise\EmployeeController@index')->name('Entreprise.Employee.index');
+    Route::get('/Entreprise/Employee/create', 'Entreprise\EmployeeController@create')->name('Entreprise.Employee.create');
+    Route::get('/Entreprise/Employee/show/{employee}', 'Entreprise\EmployeeController@show')->name('Entreprise.Employee.show');
 
+    Route::post('/Entreprise/Employee/store', 'Entreprise\EmployeeController@store')->name('Entreprise.Employee.store');
+    Route::get('/Entreprise/Employee/{employee}/edit', 'Entreprise\EmployeeController@edit')->name('Entreprise.Employee.edit');
+    Route::patch('/Entreprise/Employee/{employee}', 'Entreprise\EmployeeController@update')->name('Entreprise.Employee.update');
+    Route::delete('/Employeedestroy/{employee}', 'Entreprise\EmployeeController@destroy')->name('Entreprise.Employee.destroy');
+//Employee
+    Route::get('/employee/create', 'EmployeeController@create')->name('Employeer.create');
+    Route::post('/employeestore', 'EmployeeController@store')->name('Entreprise.Employeer.store');
 });
