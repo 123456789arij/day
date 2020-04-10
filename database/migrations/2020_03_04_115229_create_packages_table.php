@@ -17,6 +17,9 @@ class CreatePackagesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('max_employee');
+            $table->float('prix_annuel');
+            $table->float('prix_mensuel');
+            $table->string('description');
             $table->timestamps();
         });
     }

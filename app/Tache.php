@@ -8,7 +8,7 @@ class Tache extends Model
 {
 
     protected $fillable = [
-        'titre','description','projet_id','priorite','image_name',
+        'titre','description','projet_id','priorite','file_name', 'start_date', 'end_date',
     ];
     public function projet()
     {

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddVotesToProjetsTable extends Migration
+class CreateEventsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AddVotesToProjetsTable extends Migration
      */
     public function up()
     {
-        Schema::table('projetses', function (Blueprint $table) {
-            //
+        Schema::create('events', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('title');
+            $table->dateTime('start');
+            $table->dateTime('end');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,6 @@ class AddVotesToProjetsTable extends Migration
      */
     public function down()
     {
-        Schema::table('projetses', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('events');
     }
 }

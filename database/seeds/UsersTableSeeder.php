@@ -19,4 +19,6 @@ class UsersTableSeeder extends Seeder
         $admin->role_id = 0;
         $admin->save();
     }
+
+
 }

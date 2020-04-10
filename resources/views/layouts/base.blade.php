@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Content-Language" content="en">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Analytics Dashboard - This is an example dashboard created using build-in elements and components.</title>
+    <title>Gestion de projet</title>
     <meta name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"/>
     <meta name="description" content="This is an example dashboard created using build-in elements and components.">
@@ -22,6 +22,7 @@
     * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
     -->
     <link href="{{ asset('main.css') }}" rel="stylesheet">
+
     @yield('cssBlock')
 </head>
 <body>
@@ -98,31 +99,38 @@
                                     </a>
                                     <div tabindex="-1" role="menu" aria-hidden="true"
                                          class="dropdown-menu dropdown-menu-right">
-                                        <button type="button" tabindex="0" class="dropdown-item">User Account</button>
+                                        <button type="button" tabindex="0" class="dropdown-item" href="{{ route('profile') }}">User Account</button>
                                         <button type="button" tabindex="0" class="dropdown-item">Settings</button>
                                         <h6 tabindex="-1" class="dropdown-header">Header</h6>
                                         <button type="button" tabindex="0" class="dropdown-item">Actions</button>
                                         <div tabindex="-1" class="dropdown-divider"></div>
                                         <button type="button" tabindex="0" class="dropdown-item">
-                                        <a class="nav-link" href="{{ route('logout') }}"
-                                           onclick="event.preventDefault();
+                                            <a class="nav-link" href="{{ route('logout') }}"
+                                               onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            <i class="nav-icon fa pe-7s-power text-danger" style="width: 30px;font-size: 28px;"></i>&nbsp;
-                                            {{ __('Logout') }}
-                                        </a>
+                                                <i class="nav-icon fa pe-7s-power text-danger"
+                                                   style="width: 30px;font-size: 28px;"></i>&nbsp;
+                                                {{ __('Logout') }}
+                                            </a>
 
-                                        <form id="logout-form" action="{{auth()->guard("employee")->check()? route('employee.logout'):route('logout') }}" method="POST"
-                                              style="display: none;font-size: 20px;">
-{{--                                            route('logout') }}--}}
-                                            @csrf
-                                        </form>
+                                            <form id="logout-form"
+                                                  action="{{auth()->guard("employee")->check()? route('employee.logout'):route('logout') }}"
+                                                  method="POST"
+                                                  style="display: none;font-size: 20px;">
+                                                {{--                                            route('logout') }}--}}
+                                                @csrf
+                                            </form>
                                         </button>
                                     </div>
                                 </div>
                             </div>
                             <div class="widget-content-left  ml-3 header-user-info">
                                 <div class="widget-heading">
-                                    Alina Mclourd
+                                    {{--      @if (auth()->guard("employee"))
+                                              {{Auth::Employee()->name}}
+                                          @else
+                                              {{Auth::user()->name}}
+                                          @endif--}}
                                 </div>
                                 <div class="widget-subheading">
                                     VP People Manager
@@ -549,7 +557,29 @@
                                 Dashboard
                             </a>
                         </li>
-                        <li class="app-sidebar__heading"> users </li>
+                        <li class="app-sidebar__heading"> users</li>
+                        <li
+
+
+                        >
+                            <a href="#">
+                                <i class="metismenu-icon pe-7s-users"></i>
+                                clients
+                                <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                            </a>
+                            <ul
+
+
+                            >
+                                <li><a href="{{route('Entreprise.client.index')}}"> clients </a></li>
+                              {{--  <li>
+                                    <a href="components-tabs.html">
+                                        <i class="metismenu-icon">
+                                        </i>Tabs
+                                    </a>
+                                </li>--}}
+                            </ul>
+                        </li>
                         <li
 
 
@@ -563,184 +593,100 @@
 
 
                             >
-                                <li>
-                                    <a href="{{route('Entreprise.Employee.index')}}">
-                                        <i class="metismenu-icon"></i>
-                                        Employées
-                                    </a>
-                                </li>
+                                @can('entreprise')
+                                    <li>
 
-                                {{--         <a href="{{route('superAdmin.edit')}}" class="btn  btn-primary btn-block"> profile  </a>--}}
-                                <li>
-                                    <a href="{{ route('superAdmin.Entreprise.index')}}"> Entreprises </a>
-                                </li>
-                                <li><a href="{{ route('superAdmin.index') }}"> Super Admin </a></li>
-
-                                <li><a href="{{route('superAdmin.Package.index')}}"> Packages </a></li>
+                                        <a href="{{route('Entreprise.Employee.index')}}">
+                                            <i class="metismenu-icon"></i>
+                                            Employées
+                                        </a>
+                                    </li>
 
 
-                                <li><a href="{{route('client.index')}}"> clients </a></li>
+                                @endcan
+
+
+                                @can('superAdmin')
+                                    <li>
+                                        <a href="{{ route('superAdmin.Entreprise.index')}}"> Entreprises </a>
+                                    </li>
+
+                                    <li><a href="{{ route('superAdmin.index') }}"> Super Admin </a></li>
+
+
+                                    <li><a href="{{route('superAdmin.Package.index')}}"> Packages </a></li>
+
+                                @endcan
 
 
                                 <li>
-                                    <a href="elements-dropdowns.html">
+                                    <a href="{{ route('Entreprise.Department.index')}}">
                                         <i class="metismenu-icon">
-                                        </i>Dropdowns
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="elements-icons.html">
-                                        <i class="metismenu-icon">
-                                        </i>Icons
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="elements-badges-labels.html">
-                                        <i class="metismenu-icon">
-                                        </i>Badges
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="elements-cards.html">
-                                        <i class="metismenu-icon">
-                                        </i>Cards
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="elements-list-group.html">
-                                        <i class="metismenu-icon">
-                                        </i>List Groups
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="elements-navigation.html">
-                                        <i class="metismenu-icon">
-                                        </i>Navigation Menus
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="elements-utilities.html">
-                                        <i class="metismenu-icon">
-                                        </i>Utilities
+                                        </i>Département
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li
+
+                        <li class="app-sidebar__heading">Travaille</li>
+                            <li>
+                                <a href="#">
+                                    <i class="metismenu-icon pe-7s-menu"></i>
+                                   work
+                                    <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                </a>
+                                <ul>
+                                    @cannot('superAdmin')
+                                        <li>
+                                            <a href="{{route('projet.home')}}">
+                                                <i class="metismenu-icon fa fa-edit"></i>
+                                                Projects
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="{{route('tache.index')}}"> Tâches </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{route('calander_index')}}" class="nav-link">
+                                                <i class="nav-link-icon fa fa-calendar">
+                                                </i>&nbsp;Calendrier des tâches
+                                            </a>
+                                        </li>
+                                    @endcannot
 
 
-                        >
-                            <a href="#">
-                                <i class="metismenu-icon pe-7s-car"></i>
-                                Components
-                                <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-                            </a>
-                            <ul
+                                            <li>
+                                                <a href="{{route('index')}}">
+                                                    <i class="metismenu-icon fa fa-edit"></i>
+                                                    Projects employee
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="{{route('tache.index')}}"> Tâches </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{route('calander_index')}}" class="nav-link">
+                                                    <i class="nav-link-icon fa fa-calendar">
+                                                    </i>&nbsp;Calendrier des tâches
+                                                </a>
+                                            </li>
 
 
-                            >
-                                <li>
-                                    <a href="components-tabs.html">
-                                        <i class="metismenu-icon">
-                                        </i>Tabs
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="components-accordions.html">
-                                        <i class="metismenu-icon">
-                                        </i>Accordions
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="components-notifications.html">
-                                        <i class="metismenu-icon">
-                                        </i>Notifications
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="components-modals.html">
-                                        <i class="metismenu-icon">
-                                        </i>Modals
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="components-progress-bar.html">
-                                        <i class="metismenu-icon">
-                                        </i>Progress Bar
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="components-tooltips-popovers.html">
-                                        <i class="metismenu-icon">
-                                        </i>Tooltips &amp; Popovers
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="components-carousel.html">
-                                        <i class="metismenu-icon">
-                                        </i>Carousel
-                                    </a>
-                                </li>
+                                </ul>
 
-                                <li>
-                                    <a href="components-pagination.html">
-                                        <i class="metismenu-icon">
-                                        </i>Pagination
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="components-scrollable-elements.html">
-                                        <i class="metismenu-icon">
-                                        </i>Scrollable
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="components-maps.html">
-                                        <i class="metismenu-icon">
-                                        </i>Maps
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="tables-regular.html">
-                                <i class="metismenu-icon pe-7s-display2"></i>
-                                Tables
-                            </a>
-                        </li>
-                        <li class="app-sidebar__heading"> Travaille </li>
-                        <li>
 
-                            <a href="dashboard-boxes.html">
-                                <i class="metismenu-icon pe-7s-display2"></i>
-                                Dashboard Boxes
-                            </a>
-                        </li>
-                        <li class="btn-group nav-item">
-                            <a href="{{route('projet.home')}}" class="nav-link">
-                                <i class="nav-link-icon fa fa-edit"></i>
-                                Projects
-                            </a>
-                        </li>
-{{--                        <li><a href="{{route('projet.home')}}"> Projets </a></li>--}}
-                        <li class="btn-group nav-item">
-                            <a href="{{route('tache.index')}}" class="nav-link"> Tâches </a>
-                        </li>
-
-                        <li class="btn-group nav-item">
-                            <a href=""class="nav-link">
-                                <i class="nav-link-icon fa fa-calendar">
-                                </i>&nbsp;Calendrier
-                            </a>
-                        </li>
+                            </li>
                         <li class="app-sidebar__heading">Forms</li>
                         <li>
-                            <a href="forms-controls.html">
+                            <a href="{{route('event.index')}}">
                                 <i class="metismenu-icon pe-7s-mouse">
-                                </i>Forms Controls
+                                </i>Event
                             </a>
                         </li>
-                        <li>
+
+                 {{--       <li>
                             <a href="forms-layouts.html">
                                 <i class="metismenu-icon pe-7s-eyedropper">
                                 </i>Forms Layouts
@@ -751,7 +697,7 @@
                                 <i class="metismenu-icon pe-7s-pendrive">
                                 </i>Forms Validation
                             </a>
-                        </li>
+                        </li>--}}
                         <li class="app-sidebar__heading">Charts</li>
                         <li>
                             <a href="charts-chartjs.html">
@@ -759,7 +705,7 @@
                                 </i>ChartJS
                             </a>
                         </li>
-                        <li class="app-sidebar__heading">PRO Version</li>
+                  {{--      <li class="app-sidebar__heading">PRO Version</li>
                         <li>
                             <a href="https://dashboardpack.com/theme-details/architectui-dashboard-html-pro/"
                                target="_blank">
@@ -767,7 +713,7 @@
                                 </i>
                                 Upgrade to PRO
                             </a>
-                        </li>
+                        </li>--}}
                     </ul>
                 </div>
             </div>
@@ -776,7 +722,7 @@
         <div class="app-main__outer">
             <div class="app-main__inner">
 
-            @yield('content')
+                @yield('content')
 
             </div>
             {{--        /main_outer--}}
@@ -832,6 +778,6 @@
 <script type="text/javascript" src="{{ asset('assets/scripts/main.js') }}"></script>
 @include('sweetalert::alert')
 @yield('jsBlock')
-
+@yield('modele')
 </body>
 </html>

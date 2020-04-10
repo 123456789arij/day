@@ -1,6 +1,10 @@
 @extends('layouts.base')
+@section('cssBlock')
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
+@endsection
 @section('content')
+
     {{-- app-page-title--}}
     <div class="app-page-title">
         <div class="page-title-wrapper">
@@ -20,12 +24,12 @@
 
             <div class="page-title-actions">
                 <div class="d-inline-block dropdown text-center">
-                    <button class="btn-shadow mb-2 mr-2 btn btn-alternate btn-lg">
+                    <button class="btn-shadow mb-2 mr-2 btn btn-info btn-lg">
                          <span class="btn-icon-wrapper pr-2 opacity-7">
                               <i class="fa pe-7s-add-user " style="font-size: 20px;"></i>
                           </span>
-                        <a href="{{ route('projet.create') }}"
-                           style="color: white;font-size: 15px;"> Ajouter un nouveau Projet  </a>&nbsp;&nbsp;
+                        <a href="{{ route('projet.create')}}"
+                           style="color: black;font-size: 15px;"> Ajouter un nouveau Projet </a>&nbsp;&nbsp;
                     </button>
                 </div>
             </div>
@@ -43,7 +47,7 @@
                             <div class="widget-subheading">Last year expenses</div>
                         </div>
                         <div class="widget-content-right">
-                            <div class="widget-numbers text-success"> </div>
+                            <div class="widget-numbers text-success"></div>
                         </div>
                     </div>
                 </div>
@@ -112,116 +116,120 @@
                 @if(session()->get('success'))
                     <div class="alert alert-success">
                         {{ session()->get('success') }}
-                    </div><br />
+                    </div>
                 @endif
 
                 <div class="card-header">Projets
 
                 </div>
-                {{--<div class="table-responsive">
+                <div class="table-responsive container">
                     <table class="align-middle mb-0 table table-borderless table-striped table-hover">
                         <thead>
-                        <tr>
-                            <th scope="col">id </th>
-                            <th scope="col">nom du projet </th>
-                            <th scope="col">Membres du projet</th>
+                        <tr class="text-center">
+                            <th scope="col">#</th>
+                            <th scope="col">Nom du projet</th>
+                            <th scope="col">Membres</th>
                             <th scope="col">Dedline</th>
-                            <th scope="col">Client </th>
-                            <th colspan="2">completition </th>
-                            <th colspan="2">Action  </th>
+                            <th scope="col">Client</th>
+                            <th scope="col">Progression</th>
+                            <th scope="col">statu</th>
+                            <th colspan="3">Action</th>
 
                         </tr>
                         </thead>
                         <tbody>
---}}{{--                        @foreach($employees  as $employee)--}}{{--
+                        @foreach($projets  as $projet)
                             <tr>
---}}{{--                                <td class="text-center text-muted"> {{ $employee->id }} </td>--}}{{--
+                                <td class="text-center text-muted"> {{ $projet->id }} </td>
                                 <td class="text-center text-muted">
                                     <div class="widget-content p-0">
                                         <div class="widget-content-wrapper">
-                                            --}}{{--  <div class="widget-content-left mr-3">
-                                                  <div class="widget-content-left">
-                                                         img
-                                                  </div>
-                                              </div>--}}{{--
+                                            {{--  <div class="widget-content-left mr-3">
+                                                        <div class="widget-content-left">
+                                                             --}}{{--  img--}}{{--
+                                                        </div>
+                                                    </div>--}}
                                             <div class="widget-content-left flex2">
-                                                <div class="widget-heading">
-                                                    {{ $employee->nom }}</div>
-                                                <div class="widget-subheading opacity-7">Web Developer</div>
+                                               <div class="widget-heading">
+
+                                    {{-- "{{route('projet.show',$projet->id)}}"--}}
+                                                   <a href="{{route('projet.show',$projet->id)}}">{{ $projet->name }}</a>
+                                                </div>
+                                                {{--                                                <div class="widget-subheading opacity-7">Web Developer</div>--}}
                                             </div>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="text-center">{{ $employee->email }}</td>
                                 <td class="text-center">
-                                    <div class="badge badge-warning">{{ $employee->sex }}</div>
+                                    <button class="mr-2 btn-icon btn-icon-only ">
+                     <a href="{{route('afficher_membre_projet',$projet->id)}}">
+                                            <i class=" pe-7s-plus" style="font-size: 20px;"></i>
+                                        </a>
+                                    </button>
+                                    {{--           {{ $projet->description }}--}}
                                 </td>
                                 <td class="text-center">
-                                    <div class="badge badge-warning">{{ $employee->created_at }}</div>
+                                    <div class="badge badge-warning">
+                                        {{ $projet->Deadline}}
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    {{ $projet->id_client}}
+                                </td>
+                                <td class="text-center">
+                                    <div class="badge badge-warning">
+                                        {{ $projet->progress_bar }}
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    @if($projet->Project_Status == 0)
+                                        <span class="badge badge-secondary">pas encore commencé</span>
+                                    @elseif($projet->Project_Status ==  1)
+                                        <span class="badge badge-warning">en attente</span>
+                                    @elseif($projet->Project_Status ==  2)
+                                        <span class="badge badge-info">en cour</span>
+                                    @elseif($projet->Project_Status == 3)
+                                        <span class="badge badge-danger">annulé</span>
+                                    @elseif($projet->Project_Status == 4)
+                                        <span class="badge badge-success">fini</span>
+                                    @endif
                                 </td>
                                 <td class="text-center">
                                     <button class="mr-2 btn-icon btn-icon-only btn btn-outline-warning">
-                                        <a href="">
+                                        <a href="{{route('projet.edit',$projet->id)}}">
                                             <i class="pe-7s-note  btn-icon-wrapper" style="font-size: 20px;"></i>
                                         </a>
                                     </button>
                                 </td>
+                                <td>
+                                    <button class="mr-2 btn-icon btn-icon-only btn btn-outline-info">
+                                        {{--         <a href="{{route('Entreprise.Employee.show', $employee->id) }})}}" > </a>--}}
+                                        <i class="pe-7s-info  btn-icon-wrapper" style="font-size: 20px;"></i>
 
-
-
-
-                                --}}{{--
-                                                                <td>
-                                                                    <button class="mr-2 btn-icon btn-icon-only btn btn-outline-info">
-                                                                        <a href="{{route('Entreprise.Employee.show', $employee->id) }})}}" >
-                                                                            <i class="pe-7s-info  btn-icon-wrapper" style="font-size: 20px;"></i>
-                                                                        </a>
-                                                                    </button>
-                                                                </td>--}}{{--
-
+                                    </button>
+                                </td>
                                 <td class="text-center">
                                     <form action="" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger">
-                                            <i class="pe-7s-trash btn-icon-wrapper" style="font-size: 20px;"> </i></button>
-
+                                            <i class="pe-7s-trash btn-icon-wrapper" style="font-size: 20px;"> </i>
+                                        </button>
                                     </form>
                                 </td>
-
                             </tr>
-
 
                         @endforeach
                         </tbody>
                     </table>
 
-                    --}}{{--         <footer class="card-footer" style="float: right">
+                    {{--      <footer class="card-footer" style="float: right">
 
-                                 {{ $users->links() }}
-                             </footer>--}}{{--
-                </div>--}}
-
-                {{--         <div class="d-block text-center card-footer">
-                             <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger"><i
-                                     class="pe-7s-trash btn-icon-wrapper"> </i></button>
-                             <button class="btn-wide btn btn-success">Save</button>
-                         </div>
-         --}}
+                              {{ $projets->links() }}
+                          </footer>--}}
+                </div>
 
             </div>
         </div>
     </div>
-
-
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="main-card mb-3 card">
-                <div class="card-header">Active Users</div>
-            </div>
-        </div>
-    </div>
-
-
 @endsection

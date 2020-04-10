@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddVotesToPackagesTable extends Migration
+class CreateDepartmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddVotesToPackagesTable extends Migration
      */
     public function up()
     {
-        Schema::table('packages', function (Blueprint $table) {
-            //
+        Schema::create('departments', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +27,6 @@ class AddVotesToPackagesTable extends Migration
      */
     public function down()
     {
-        Schema::table('packages', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('departments');
     }
 }

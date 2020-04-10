@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\SuperAdmin;
 
 use App\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -77,6 +78,9 @@ class SuperAdminController extends Controller
      */
     public function edit(User $user)
     {
+      /*  if( Gate::denies('edit_projet')){
+            return   dd('You are not admin');
+        }*/
         return view('superAdmin.edit',compact('user'));
     }
 

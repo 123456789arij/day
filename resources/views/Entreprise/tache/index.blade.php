@@ -1,6 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
+
     {{-- app-page-title--}}
     <div class="app-page-title">
         <div class="page-title-wrapper">
@@ -10,7 +11,7 @@
                     <i class="pe-7s-car icon-gradient bg-mean-fruit">
                     </i>
                 </div>
-                <div> Tâches Dashboard
+                <div> Tâche Dashboard
                     {{--    <div class="page-title-subheading">This is an example dashboard created using build-in
                             elements and components
                         </div>--}}
@@ -24,8 +25,8 @@
                          <span class="btn-icon-wrapper pr-2 opacity-7">
                               <i class="fa pe-7s-add-user " style="font-size: 20px;"></i>
                           </span>
-                        <a href="{{ route('tache.create') }}"
-                           style="color: white;font-size: 15px;"> Ajouter une Nouvelle Tâche  </a>&nbsp;&nbsp;
+                        <a href="{{ route('tache.create')}}"
+                           style="color: white;font-size: 15px;"> Ajouter une nouvelle Tâche</a>&nbsp;&nbsp;
                     </button>
                 </div>
             </div>
@@ -43,7 +44,7 @@
                             <div class="widget-subheading">Last year expenses</div>
                         </div>
                         <div class="widget-content-right">
-                            <div class="widget-numbers text-success"> </div>
+                            <div class="widget-numbers text-success"></div>
                         </div>
                     </div>
                 </div>
@@ -108,84 +109,68 @@
     <div class="row">
         <div class="col-md-12">
             <div class="main-card mb-3 card">
-
-                @if(session()->get('success'))
-                    <div class="alert alert-success">
-                        {{ session()->get('success') }}
-                    </div><br />
-                @endif
-
-                <div class="card-header">Tâche
-
+                <div class="card-header">
+                    Tâche
                 </div>
-                {{--<div class="table-responsive">
+                <div class="table-responsive container">
                     <table class="align-middle mb-0 table table-borderless table-striped table-hover">
                         <thead>
                         <tr>
-                        <th scope="col">id </th>
-                                <th scope="col">Tâche </th>
-                                <th scope="col"> projet</th>
-                                <th scope="col">Client </th>
-                                <th scope="col">Dedline</th>
-                                <th scope="col"> Membres du travailles</th>
-                                <th scope="col">Statut</th>
-                                <th colspan="2">Action  </th>
+                            <th scope="col">#</th>
+                            <th scope="col">Tâche</th>
+                            <th scope="col">projet</th>
+                            <th scope="col">Dedline</th>
+                            <th scope="col">Statut</th>
+                            <th colspan="2">Action</th>
 
                         </tr>
                         </thead>
                         <tbody>
---}}{{--                        @foreach($employees  as $employee)--}}{{--
+                        @foreach(  $taches  as  $tache)
                             <tr>
---}}{{--                                <td class="text-center text-muted"> {{ $employee->id }} </td>--}}{{--
+                                <td> {{$tache->id }} </td>
                                 <td class="text-center text-muted">
                                     <div class="widget-content p-0">
                                         <div class="widget-content-wrapper">
-                                            --}}{{--  <div class="widget-content-left mr-3">
-                                                  <div class="widget-content-left">
-                                                         img
-                                                  </div>
-                                              </div>--}}{{--
-                                            <div class="widget-content-left flex2">
-                                                <div class="widget-heading">
-                                                    {{ $employee->nom }}</div>
-                                                <div class="widget-subheading opacity-7">Web Developer</div>
+                                            {{--  <div class="widget-content-left mr-3">
+                                                        <div class="widget-content-left">
+                                                             --}}{{--  img--}}{{--
+                                                        </div>
+                                                    </div>--}}
+                                            <div>
+                                                <div>
+                                                   <a href="">{{ $tache->titre}}</a>
+                                                </div>
+                                                {{--                                                <div class="widget-subheading opacity-7">Web Developer</div>--}}
                                             </div>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="text-center">{{ $employee->email }}</td>
-                                <td class="text-center">
-                                    <div class="badge badge-warning">{{ $employee->sex }}</div>
+                                    <td>
+                                        <a href="">{{ $tache->projet->name}}</a></td>
+
+
+                                <td style="color: tomato;font-size: 15px;">
+                                        {{$tache->end_date }}
                                 </td>
-                                <td class="text-center">
-                                    <div class="badge badge-warning">{{ $employee->created_at }}</div>
-                                </td>
-                                <td class="text-center">
+
+
+                          <td>
                                     <button class="mr-2 btn-icon btn-icon-only btn btn-outline-warning">
-                                        <a href="">
+                                        <a href="{{route('tache.edit',$tache->id)}}">
                                             <i class="pe-7s-note  btn-icon-wrapper" style="font-size: 20px;"></i>
                                         </a>
                                     </button>
                                 </td>
 
 
-
-
-                                --}}{{--
-                                                                <td>
-                                                                    <button class="mr-2 btn-icon btn-icon-only btn btn-outline-info">
-                                                                        <a href="{{route('Entreprise.Employee.show', $employee->id) }})}}" >
-                                                                            <i class="pe-7s-info  btn-icon-wrapper" style="font-size: 20px;"></i>
-                                                                        </a>
-                                                                    </button>
-                                                                </td>--}}{{--
-
-                                <td class="text-center">
-                                    <form action="" method="post">
+                                <td>
+                                    <form action="{{route('tache.destroy',$tache->id)}}" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger">
-                                            <i class="pe-7s-trash btn-icon-wrapper" style="font-size: 20px;"> </i></button>
+                                            <i class="pe-7s-trash btn-icon-wrapper" style="font-size: 20px;"> </i>
+                                        </button>
 
                                     </form>
                                 </td>
@@ -197,32 +182,13 @@
                         </tbody>
                     </table>
 
-                    --}}{{--         <footer class="card-footer" style="float: right">
+                    {{--      <footer class="card-footer" style="float: right">
 
-                                 {{ $users->links() }}
-                             </footer>--}}{{--
-                </div>--}}
-
-                {{--         <div class="d-block text-center card-footer">
-                             <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger"><i
-                                     class="pe-7s-trash btn-icon-wrapper"> </i></button>
-                             <button class="btn-wide btn btn-success">Save</button>
-                         </div>
-         --}}
+                              {{ $projets->links() }}
+                          </footer>--}}
+                </div>
 
             </div>
         </div>
     </div>
-
-
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="main-card mb-3 card">
-                <div class="card-header">Active Users</div>
-            </div>
-        </div>
-    </div>
-
-
 @endsection

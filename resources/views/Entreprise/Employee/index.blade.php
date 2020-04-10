@@ -109,11 +109,15 @@
         <div class="col-md-12">
             <div class="main-card mb-3 card">
 
-     {{--           @if(session()->get('success'))
-                    <div class="alert alert-success">
-                        {{ session()->get('success') }}
-                    </div><br />
-                @endif--}}
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
                 <div class="card-header">Employees
 
@@ -133,7 +137,9 @@
                         <tbody>
                         @foreach($employees as $employee)
                         <tr>
-                            <td class="text-center text-muted"> {{ $employee->id }}</td>
+                            <td class="text-center text-muted">
+                                {{ $employee->id }}
+                            </td>
                             <td class="text-center text-muted">
                                 <div class="widget-content p-0">
                                     <div class="widget-content-wrapper">
@@ -145,7 +151,7 @@
                                         <div class="widget-content-left flex2">
                                             <div class="widget-heading">
                                                 {{ $employee->name }}   </div>
-                                            <div class="widget-subheading opacity-7">Web Developer</div>
+{{--                                            <div class="widget-subheading opacity-7">Web Developer</div>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -161,11 +167,6 @@
                                     </a>
                                 </button>
                             </td>
-
-
-
-
-
                             <td>
                                 <button class="mr-2 btn-icon btn-icon-only btn btn-outline-info">
                                     <a href="{{route('Entreprise.Employee.show', $employee->id) }})}}" >
@@ -173,26 +174,20 @@
                                     </a>
                                 </button>
                             </td>
-
                             <td class="text-center">
                                 <form action="{{ route('Entreprise.Employee.destroy',$employee->id) }}" method="post">.
                                     @csrf
                                     @method('DELETE')
                                     <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger">
                                         <i class="pe-7s-trash btn-icon-wrapper" style="font-size: 20px;"> </i></button>
-
                                 </form>
                             </td>
-
                         </tr>
-
-
                         @endforeach
                         </tbody>
                     </table>
 
                     <footer class="card-footer" style="float: right">
-
                         {{ $employees->links() }}
                     </footer>
                 </div>
@@ -203,20 +198,7 @@
                     <button class="btn-wide btn btn-success">Save</button>
                 </div>
 --}}
-
             </div>
         </div>
     </div>
-
-
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="main-card mb-3 card">
-                <div class="card-header">Active Users</div>
-            </div>
-        </div>
-    </div>
-
-
 @endsection

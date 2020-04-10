@@ -3,9 +3,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="{{asset('dist/min/dropzone.min.css')}}">
 {{--    <link href="https://transloadit.edgly.net/releases/uppy/v1.10.1/uppy.min.css" rel="stylesheet" >--}}
-    <style>
-
-    </style>
 @endsection
 
 @section('content')
@@ -50,7 +47,6 @@
                     </div>
                 @endif
 
-
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -58,9 +54,8 @@
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>
-                    </div><br/>
+                    </div>
                 @endif
-                <br>
 
                 <div class="card-header">
                     Ajouter une nouvelle Tâche
@@ -148,8 +143,22 @@
                                         {{--                                    /bouton radio--}}
                                     </div>
 
-
-
+                                    <div class="form-row">
+                                        <div class="col-4">
+                                            <div class="position-relative form-group">
+                                                <label for="start_date"> Date de début </label>
+                                                <input type="date" class="form-control" id="start_date"
+                                                       name="start_date" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="position-relative form-group">
+                                                <label for="end_date"> Date limite</label>
+                                                <input type="date" class="form-control" id="Deadline"
+                                                       name="end_date" required>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <div class="divider"></div>
                                     <div class="form-row">
@@ -164,7 +173,7 @@
                                         <div class="col-md-12">
                                         <label for="image_name"> importer vos fichier :</label>
 {{--                                            <span id="drag-drop-area"  name="image_name"> </span>--}}
-                                        <input type="file" name="image_name" />
+                                        <input type="file" name="file_name" />
                                     </div>
                                     </div>
                                     <br>

@@ -27,6 +27,19 @@ class RedirectIfAuthenticated
         if ($guard == "employee" && Auth::guard('web')->check()) {
             return redirect('dashbord');
         }
+
+
+        if ($guard == "client" && Auth::guard($guard)->check()) {
+            return redirect(route('client.dashbord'));
+        }
+        if ($guard == null && Auth::guard('client')->check()) {
+            return redirect(route('client.dashbord'));
+        }
+        if ($guard == "client" && Auth::guard('web')->check()) {
+            return redirect('dashbord');
+        }
+
+
         if (Auth::guard($guard)->check()) {
             return redirect(RouteServiceProvider::HOME);
         }

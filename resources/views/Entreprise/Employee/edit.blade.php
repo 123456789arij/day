@@ -1,5 +1,9 @@
 @extends('layouts.base')
+@section('cssBlock')
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 
+@endsection
 @section('content')
     {{-- app-page-title--}}
     <div class="app-page-title">
@@ -9,7 +13,7 @@
                 <div class="page-title-icon">
                     <i class="pe-7s-car icon-gradient bg-mean-fruit"></i>
                 </div>
-                <div> Employée </div>
+                <div> Employée</div>
                 {{--    <div class="page-title-subheading">This is an example dashboard created using build-in
                         elements and components
                     </div>--}}
@@ -35,14 +39,11 @@
     <div class="row">
         <div class="col-md-12">
             <div class="main-card mb-3 card">
-
-        {{--        @if(Session::has('success'))
-                    <div class="alert alert-success">
-                        {{Session::get('success')}}
-                    </div>
-                @endif--}}
-
-
+                {{--        @if(Session::has('success'))
+                            <div class="alert alert-success">
+                                {{Session::get('success')}}
+                            </div>
+                        @endif--}}
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -50,12 +51,10 @@
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>
-                    </div><br/>
+                    </div>
                 @endif
-                <br>
-
                 <div class="card-header">
-                    Ajouter un nouveau Employée
+                    METTRE À JOUR LES INFORMATIONS DES EMPLOYÉS
                 </div>
 
                 <div class="tab-content">
@@ -63,21 +62,24 @@
                         <div class="main-card mb-3 card">
                             <div class="card-body">
                                 {{--                                    <h5 class="card-title">Grid Rows</h5>--}}
-                                <form action="{{ route('Entreprise.Employee.update', $employee->id ) }}" method="POST">
+                                <form method="POST" action="{{ route('Entreprise.Employee.update',$employee->id) }}">
+                                    @csrf
+                                    @method('PATCH')
                                     {{--  partie email +adresse--}}
                                     <div class="form-row">
-                                        @csrf
-                                        @method('PATCH')
                                         <div class="col-md-4">
                                             <div class="position-relative form-group">
                                                 <label for="name"> NOM </label>
-                                                <input type="text" class="form-control" id="name" name="name" >
+                                                <input type="text" class="form-control" id="name" name="name"
+                                                       value="{{$employee->name }}">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="position-relative form-group">
                                                 <label for="email">Email</label>
-                                                <input type="email" class="form-control" id="email" name="email" class="@error('email', 'login') is-invalid @enderror">
+                                                <input type="email" class="form-control" name="email"
+                                                       value="{{$employee->email}}"
+                                                       class="@error('email', 'login') is-invalid @enderror">
                                                 @error('email', 'login')
                                                 <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror
@@ -85,55 +87,27 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="position-relative form-group">
-                                                <label for="password" >Password</label>
-                                                <input type="password" class="form-control" id="password" name="password" >
+                                                <label for="password">Password</label>
+                                                <input type="password" class="form-control"
+                                                       name="password">
                                             </div>
                                         </div>
                                     </div>
-                                    {{--    /  partie email +adresse--}}
-                                    {{--                <div class="position-relative form-group">
-                                                        <label for="exampleAddress" class="">Address</label>
-                                                        <input name="address" id="exampleAddress" placeholder="1234 Main St" type="text" class="form-control">
-                                                    </div>
-                                                    <div class="position-relative form-group">
-                                                        <label for="exampleAddress2" class="">Address 2</label>
-                                                        <input name="address2" id="exampleAddress2" placeholder="Apartment, studio, or floor" type="text" class="form-control">
-                                                    </div>
-                                                    --}}{{--    partie sity state --}}{{--
-                                                    <div class="form-row">
-                                                            <div class="col-md-6">
-                                                                <div class="position-relative form-group">
-                                                                    <label for="exampleCity" class="">City</label>
-                                                                    <input name="city" id="exampleCity" type="text" class="form-control">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <div class="position-relative form-group">
-                                                                    <label for="exampleState" class="">State</label>
-                                                                    <input name="state" id="exampleState" type="text" class="form-control">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <div class="position-relative form-group">
-                                                                    <label for="exampleZip" class="">Zip</label>
-                                                                    <input name="zip" id="exampleZip" type="text" class="form-control">
-                                                                </div>
-                                                            </div>
-                                                    </div>--}}
+
                                     <div class="col">
                                         <label for="role">
                                             <strong> role</strong>
                                         </label>
-                                        <div class="custom-control custom-radio" >
-                                            <input class="custom-control-input"  id="1" type="radio" name="role"
-                                                   value="1"  @if (old('role')=="employee")  checked @endif >
-                                            <label class="custom-control-label" for="1" >
+                                        <div class="custom-control custom-radio">
+                                            <input class="custom-control-input" id="1" type="radio" name="role"
+                                                   value="1" @if (old('role')=="employee")  checked @endif >
+                                            <label class="custom-control-label" for="1">
                                                 Employée
                                             </label>
                                         </div>
                                         <div class="custom-control custom-radio">
                                             <input class="custom-control-input" type="radio" name="role" id="2"
-                                                   value="2"  @if (old('role')=="admin")  checked @endif >
+                                                   value="2" @if (old('role')=="admin")  checked @endif >
                                             <label class="custom-control-label" for="2">
                                                 Admin
                                             </label>
@@ -160,4 +134,10 @@
             </div>
         </div>
     </div>
+@endsection
+@section('jsBlock')
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-show-password@1.2.1/dist/bootstrap-show-password.min.js"></script>
 @endsection

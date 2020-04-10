@@ -1,8 +1,7 @@
 @extends('layouts.base')
 @section('cssBlock')
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-
-    @endsection
+@endsection
 
 @section('content')
     {{-- app-page-title--}}
@@ -13,7 +12,7 @@
                 <div class="page-title-icon">
                     <i class="pe-7s-car icon-gradient bg-mean-fruit"></i>
                 </div>
-                <div> PROJET </div>
+                <div> PROJET</div>
                 {{--    <div class="page-title-subheading">This is an example dashboard created using build-in
                         elements and components
                     </div>--}}
@@ -40,13 +39,6 @@
         <div class="col-md-12">
             <div class="main-card mb-3 card">
 
-                @if(Session::has('success'))
-                    <div class="alert alert-success">
-                        {{Session::get('success')}}
-                    </div>
-                @endif
-
-
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -54,9 +46,8 @@
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>
-                    </div><br/>
+                    </div>
                 @endif
-                <br>
 
                 <div class="card-header">
                     Ajouter un nouveau PROJET
@@ -67,61 +58,116 @@
                         <div class="main-card mb-3 card">
                             <div class="card-body">
                                 {{--                                    <h5 class="card-title">Grid Rows</h5>--}}
-                                <form method="POST"  action="{{ route('projet.afficher') }}" >
+                                <form method="POST" action="{{ route('projet.store') }}">
                                     {{--  partie email +adresse--}}
                                     <div class="form-row">
                                         @csrf
-                                            <div class="col-12 ">
-                                                <div class="position-relative form-group">
-                                                    <label for="name"> nom du projet </label>
-                                                    <input type="text" class="form-control" id="name" name="name" required>
-                                                </div>
+                                        <div class="col-12 ">
+                                            <div class="position-relative form-group">
+                                                <label for="name"> nom du projet </label>
+                                                <input type="text" class="form-control" id="name" name="name" required>
                                             </div>
                                         </div>
-                             {{--           <div class="col-md-4">
-                                            <div class="position-relative form-group">
-                                                <label for="email">Email</label>
-                                                <input type="email" class="form-control" id="email" name="email" class="@error('email', 'login') is-invalid @enderror" required>
-                                                @error('email', 'login')
-                                                <div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>--}}
+                                    </div>
                                     <div class="form-row">
                                         <div class="col">
-                                        <label ><strong>Catégories du projet  </strong></label>
-                                        <button style="font-size: 15px; color: white;border: 1px solid" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                                            <i class="fa fa-plus" style="font-size:15px"></i>
-                                            Ajouter Catégories du projet
-{{--                                                      <a href="{{route('projet.create')}}"> </a>--}}
-                                        </button>
+                                            <label><strong>Catégories du projet </strong></label>
+                                            @include ('admin.posts.form', ['formMode' => 'create'])
+                                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                    data-target="#exampleModalCenter">
+                                                <a href="{{route('Entreprise.categorie.index')}}" style="color:white;">
+                                                    Ajouter Catégories du projet</a>
+                                            </button>--}}
+                                            {{--  <button style="font-size: 15px; color: white;border: 1px solid"
+                                                    type="button" class="btn btn-primary" data-toggle="modal"
+                                                    data-target="#exampleModalCenter">
+                                                <i class="fa fa-plus" style="font-size:15px"></i>
+
+                                                --}}{{--                                                      <a href="{{route('projet.create')}}"> </a>--}}{{--
+                                            </button>--}}
                                         </div>
                                     </div>
                                     <br>
                                     <div class="form-row">
                                         <div class="col-md-6">
-                                            <div class="position-relative form-group" for="Categories_Id">
-                                                <select class="mb-2 form-control-lg form-control" name="Categories_Id"  id="Categories_Id">
-                                                    {{--                                <option value="">Choose....</option>--}}
-                                                    @foreach( $categories as $category )
-                                                        <option value="{{$category->id}}"> {{$category->name_categorie}} </option>
+                                       <div class="position-relative form-group"for="Categories_Id">
+                                                <label >categories </label>
+                                                <select class="mb-2 form-control-lg form-control" name="Categories_Id">
+                                                    @foreach($categories as $category)
+                                                        <option
+                                                            value="{{$category->id}}"> {{$category->name_categorie}} </option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
-                                        <div class="divider"></div>
-
-                                    <div class="col">
-                                            <label for="description"><strong> Déscription  du projet </strong></label>
-                                            <textarea  id="textarea"  name="description"></textarea>
+                                    {{--client--}}
+                                    <div class="form-row">
+                                        <div class="col-12">
+                                            <div class="position-relative form-group" for="id_client">
+                                                <label>Sélectionnez un client</label>
+                                                <select class="mb-2 form-control-lg form-control" name="id_client">
+                                                    <option value="">Choose....</option>
+                                                    @foreach($clients as $client)
+                                                        <option
+                                                            value="{{$client->id}}"> {{$client->name}} </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
-                                    {{--   / partie sity state --}}
-                                    {{--   <div class="position-relative form-check">
-                                           <input name="check" id="exampleCheck" type="checkbox" class="form-check-input">
-                                           <label for="exampleCheck" class="form-check-label">Check me out</label>
-                                       </div>
-                                       <button class="mt-2 btn btn-primary">Sign in</button>--}}
+                                    {{--/client--}}
+                                    <div class="form-row">
+                                        <div class="col-4">
+                                            <div class="position-relative form-group">
+                                                <label for="start_date"> Date de début </label>
+                                                <input type="date" class="form-control" id="start_date"
+                                                       name="start_date" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="position-relative form-group">
+                                                <label for="Deadline"> Date limite</label>
+                                                <input type="date" class="form-control" id="Deadline"
+                                                       name="Deadline" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="Project_Status"> L'état du projet </label>
+                                                <select class="mb-2 form-control form-control" name="Project_Status" required>
+                                                    <option value="0"
+                                                            @if (old('Project_Status')=="pas encore commencé")  checked @endif >
+                                                        pas encore commencé
+                                                    </option>
+                                                    <option value="1"
+                                                            @if (old('Project_Status')=="en attente")  checked @endif>
+                                                        en attente
+                                                    </option>
+                                                    <option value="2"
+                                                            @if (old('Project_Status')=="en cour")  checked @endif>
+                                                        en cour
+                                                    </option>
+                                                    <option value="3"
+                                                            @if (old('Project_Status')=="annulé")  checked @endif>
+                                                        annulé
+                                                    </option>
+                                                    <option value="4"
+                                                            @if (old('Project_Status')=="fini")  checked @endif>
+                                                        fini
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="divider"></div>
+                                    <br>
+                                    <div class="col">
+                                        <label for="description"><strong> Déscription du projet </strong></label>
+                                        <textarea id="textarea" name="description"></textarea>
+                                    </div>
 
                                     <div class="d-block text-center card-footer">
                                         <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger">
@@ -137,65 +183,27 @@
                 </div>
 
 
-
-
             </div>
         </div>
     </div>
-    {{--   store categories   --}}
-    {{--   <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-           <div class="modal-dialog modal-lg">
-               <div class="modal-content">
-                   <div class="modal-header">
-                       <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                           <span aria-hidden="true">&times;</span>
-                       </button>
-                   </div>--}}
-
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST"  action="{{ route('projet.store') }}" >
-                        <div class="form-group">
-                            @csrf
-                            <label>nom du Categorie  </label>
-                            <input type="text" class="form-control" id="name_categorie" name="name_categorie">
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button"   type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
-
-                    </form>
-                </div>
-
-
-
-            </div></div></div>
-    {{--   /store categories   --}}
 @endsection
+
+
+
+
 @section('jsBlock')
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>
     <script>
         tinymce.init({
-            selector:'textarea',
+            selector: 'textarea',
             plugins: 'link code',
             branding: false,
             plugins: "fullscreen",
-            menubar:false,
+            menubar: false,
             //  toolbar: "fullscreen",
         });
 

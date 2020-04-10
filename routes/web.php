@@ -26,6 +26,19 @@ Route::prefix('employee')->group(function () {
 
     Route::group(['middleware' => 'auth.employee'], function () {
         Route::get('/tasks', 'employee\TaskController@index')->name('employee.tasks');
+        Route::get('/projet', 'employee\ProjetController@index')->name('index');
+    });
+});
+
+//client
+//Employee login
+Route::prefix('client')->group(function () {
+    Route::get('/login', 'Auth\ClientController@showLoginForm')->name('client.login');
+    Route::post('/login', 'Auth\ClientController@login')->name('client.login.submit');
+    Route::post('logout/', 'Auth\ClientController@logout')->name('client.logout');
+
+    Route::group(['middleware' => 'auth.client'], function () {
+        Route::get('/dashborad', 'client\ClientController@index')->name('client.dashbord');
     });
 });
 
@@ -46,12 +59,12 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
 
 //superAdmin
-    Route::get('/superAdmin', 'SuperAdminController@index')->name('superAdmin.index');
-    Route::get('/superAdmin/create', 'SuperAdminController@create')->name('superAdmin.create');
-    Route::post('/superAdmin/store', 'SuperAdminController@store')->name('superAdmin.store');
+    Route::get('/superAdmin', 'SuperAdmin\SuperAdminController@index')->name('superAdmin.index');
+    Route::get('/superAdmin/create', 'SuperAdmin\SuperAdminController@create')->name('superAdmin.create');
+    Route::post('/superAdmin/store', 'SuperAdmin\SuperAdminController@store')->name('superAdmin.store');
 
-    Route::get('/superAdminEdit/{user}/edit', 'SuperAdminController@edit')->name('superAdmin.edit');
-    Route::patch('/superAdminupdate/{user}', 'SuperAdminController@update')->name('superAdmin.update');
+    Route::get('/superAdminEdit/{user}/edit', 'SuperAdmin\SuperAdminController@edit')->name('superAdmin.edit');
+    Route::patch('/superAdminupdate/{user}', 'SuperAdmin\SuperAdminController@update')->name('superAdmin.update');
 
 
 // superAdmin Entreprise
@@ -67,15 +80,25 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/superAdmin/Package', 'SuperAdmin\PackageController@index')->name('superAdmin.Package.index');
 
 //Projet
-    Route::get('/Entreprise/projet', 'Entreprise\ProjetController@index')->name('projet.index');
+//    Route::get('/Entreprise/projet', 'Entreprise\ProjetController@index')->name('Entreprise.categorie.index');
     Route::get('/Entreprise/projet/show', 'Entreprise\ProjetController@home')->name('projet.home');
     Route::get('/Entreprise/projet/create', 'Entreprise\ProjetController@create')->name('projet.create');
     Route::post('/Entreprise/projet/store', 'Entreprise\ProjetController@store')->name('projet.store');
-
+    Route::get('/Entreprise/projet/{projet}/edit', 'Entreprise\ProjetController@edit')->name('projet.edit');
+    Route::patch('/Entreprise/projet/{projet}', 'Entreprise\ProjetController@update')->name('projet.update');
     Route::delete('/Entreprise/projet/destroy/{projet}', 'Entreprise\ProjetController@destroy')->name('projet.destroy');
+    Route::get('/Entreprise/projet/{projet}', 'Entreprise\ProjetController@show')->name('projet.show');
 
-    //.store pour la création du  projet
-    Route::post('/Entreprise/projet/categorie/store', 'Entreprise\ProjetController@afficher')->name('projet.afficher');
+
+    Route::get('/membre', 'Entreprise\ProjetController@afficher_membre_projet')->name('afficher_membre_projet');
+    Route::post('projet/membre', 'Entreprise\ProjetController@membre_projet')->name('membre.projet');
+
+
+
+
+    Route::delete('/Entreprise/membre/destroy/{id_membre}', 'Entreprise\ProjetController@destroy_membre_projet')->name('destroy_membre');
+/*    //.store pour la création du  projet
+    Route::post('/Entreprise/projet/categorie/store', 'Entreprise\ProjetController@afficher')->name('projet.afficher');*/
 //Categorie
     /*    Route::get('/Entreprise/categorie', 'Entreprise\CategorieController@index')->name('categorie.index');
 
@@ -90,14 +113,30 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/Entreprise/tache/create', 'Entreprise\TacheController@create')->name('tache.create');
     Route::post('/Entreprise/tache/store', 'Entreprise\TacheController@store')->name('tache.store');
     Route::post('storeImages', 'Entreprise\TacheController@uploadImages')->name('tache.uploadImages');
+    Route::get('/Entreprise/Tache/{tache}/edit', 'Entreprise\TacheController@edit')->name('tache.edit');
+    Route::patch('/Entreprise/Tache/{tache}', 'Entreprise\TacheController@update')->name('tache.update');
+    Route::delete('deleteTache/{tache}','Entreprise\TacheController@destroy')->name('tache.destroy');
+
+//fullcalender
+    Route::get('fullcalendar','FullCalendarController@index')->name('calander_index');
+    Route::post('fullcalendar/create','FullCalendarController@create')->name('calander_create');
+    Route::post('fullcalendar/update','FullCalendarController@update')->name('calander_update');
+    Route::post('fullcalendar/delete','FullCalendarController@destroy')->name('calander_destroy');
 
     /*  Route::post('deleteImages', 'Entreprise\TacheController@deleteImage')->name('tache.deleteImage');*/
 
 
     //client
-    Route::get('/Entreprise/client', 'Entreprise\ClientController@index')->name('client.index');
-    Route::get('/Entreprise/client/create', 'Entreprise\ClientController@create')->name('client.create');
-    Route::post('/Entreprise/client/store', 'Entreprise\ClientController@store')->name('client.store');
+    Route::get('/Entreprise/client', 'Entreprise\ClientController@index')->name('Entreprise.client.index');
+    Route::get('/Entreprise/client/create', 'Entreprise\ClientController@create')->name('Entreprise.client.create');
+    Route::post('/Entreprise/client/store', 'Entreprise\ClientController@store')->name('Entreprise.client.store');
+
+    Route::get('/Entreprise/client/show/{client}', 'Entreprise\ClientController@show')->name('Entreprise.client.show');
+    Route::get('/Entreprise/client/{client}/edit', 'Entreprise\ClientController@edit')->name('Entreprise.client.edit');
+    Route::patch('/Entreprise/client/{client}', 'Entreprise\ClientController@update')->name('Entreprise.client.update');
+    Route::delete('/clientdestroy/{client}', 'Entreprise\ClientController@destroy')->name('Entreprise.client.destroy');
+
+
 //Entreprise Employee
 
     Route::get('/Entreprise/Employee', 'Entreprise\EmployeeController@index')->name('Entreprise.Employee.index');
@@ -112,3 +151,29 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/employee/create', 'EmployeeController@create')->name('Employeer.create');
     Route::post('/employeestore', 'EmployeeController@store')->name('Entreprise.Employeer.store');
 });
+
+//department
+
+Route::get('/Entreprise/Department', 'Entreprise\DepartmentController@index')->name('Entreprise.Department.index');
+Route::get('/Entreprise/Department/create', 'Entreprise\DepartmentController@create')->name('Entreprise.Department.create');
+Route::post('/Entreprise/Department/store', 'Entreprise\DepartmentController@store')->name('Entreprise.Department.store');
+Route::get('/Entreprise/Department/{department}/edit', 'Entreprise\DepartmentController@edit')->name('Entreprise.Department.edit');
+Route::patch('/Entreprise/update/{department}', 'Entreprise\DepartmentController@update')->name('Entreprise.Department.update');
+Route::delete('/Entreprise/destroy/{department}', 'Entreprise\DepartmentController@destroy')->name('Entreprise.Department.destroy');
+//Membre projet
+
+Route::get('/Entreprise/Membre', 'Entreprise\MembreController@index')->name('Entreprise.Membre.index');
+Route::get('/Entreprise/Membre/create', 'Entreprise\MembreController@create')->name('Entreprise.Membre.create');
+Route::post('/Entreprise/Membre/store', 'Entreprise\MembreController@store')->name('Entreprise.Membre.store');
+Route::delete('/Entreprise/Membre/{employee}', 'Entreprise\MembreController@destroy')->name('Entreprise.Membre.destroy');
+Route::get('/Membre/{projet}', 'Entreprise\MembreController@afficher')->name('Entreprise.Membre.afficher');
+
+//fullcalender
+Route::get('/fullevent','FullEventController@index')->name('event.index');
+Route::get('/fullevent/create','FullEventController@create')->name('event.create');
+Route::post('/fullevent/update','FullEventController@update')->name('event.update');
+Route::post('/fullevent/delete','FullEventController@destroy')->name('event.destroy');
+
+
+Route::get('/profile', 'ProfileController@index')->name('profile');
+Route::post('/profile/update', 'ProfileController@updateProfile')->name('profile.update');

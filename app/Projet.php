@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Projet extends Model
 {
     protected $fillable = [
-        'name', 'description', 'Categories_Id',
+        'name', 'description', 'Categories_Id', 'Project_Status', 'start_date' , 'Deadline','file','id_client',
+        'note',	'progress_bar',
     ];
 
     public function user()
@@ -25,4 +26,17 @@ class Projet extends Model
     {
         return $this->belongsTo('App\Categorie');
     }
+
+    public function client()
+    {
+        return $this->belongsTo('App\Client');
+    }
+
+
+    public function employees()
+    {
+        return $this->belongsToMany('App\Employee');
+    }
+
+
 }

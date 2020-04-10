@@ -23,7 +23,7 @@
 
 
 
-                        <table class="table table-bordered text-center">
+                  {{--      <table class="table table-bordered text-center">
                             <thead>
                             <tr>
                                 <th scope="col">id </th>
@@ -62,7 +62,7 @@
                          </form>
 
                             </tbody>
-                        </table>
+                        </table>--}}
                     </div>
                 </div>
             </div>

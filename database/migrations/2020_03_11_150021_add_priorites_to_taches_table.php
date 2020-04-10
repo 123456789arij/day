@@ -15,7 +15,7 @@ class AddPrioritesToTachesTable extends Migration
     {
         Schema::table('taches', function (Blueprint $table) {
             $table->string('priorite')->after('projet_id');
-            $table->string('image_name')->after('priorite');
+            $table->string('file_name')->after('priorite')->nullable();
         });
     }
 

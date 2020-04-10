@@ -14,7 +14,7 @@ class Employee extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name','email', 'password','role',
+        'name','email', 'password','role','sex','skills','image','adresse','date_inscription','id_department',
     ];
 
     /**
@@ -31,11 +31,26 @@ class Employee extends Authenticatable
         $this->attributes['password'] = bcrypt($password);
     }
 
+    public function getImageAttribute()
+    {
+        return $this->image;
+    }
+
+    public function department()
+    {
+        return $this->hasOne('App\Department');
+    }
 
 
+    public function projets()
+    {
+        return $this->belongsToMany('App\Projet');
+    }
 
-
-
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 
 
 

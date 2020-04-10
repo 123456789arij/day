@@ -19,7 +19,13 @@ class CreateEmployeesTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->tinyInteger('role');
+            $table->tinyInteger('role')->default('1');
+            $table->date('date_inscription');
+            $table->string('sex')->nullable();
+            $table->integer('mobile')->nullable();
+            $table->text('skills')->nullable();
+            $table->string('image')->default('default.jpg');
+            $table->string('adresse')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
