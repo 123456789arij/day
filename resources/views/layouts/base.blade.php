@@ -22,7 +22,7 @@
     * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
     -->
     <link href="{{ asset('main.css') }}" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     @yield('cssBlock')
 </head>
 <body>
@@ -775,6 +775,9 @@
         <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="{{ asset('assets/scripts/main.js') }}"></script>
 @include('sweetalert::alert')
 @yield('jsBlock')

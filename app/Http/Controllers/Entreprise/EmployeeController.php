@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Entreprise;
 
+use App\Traits\UploadTrait;
 use App\Department;
 use App\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use File;
 
 class EmployeeController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -58,6 +60,7 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'name' => 'required',
             'email' => 'required',
@@ -65,17 +68,30 @@ class EmployeeController extends Controller
             'role' => 'required',
             'date_inscription' => 'required',
             'id_department' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
         ]);
-        /*        Employee::create([
-                    'name' => $request['name'],
-                    'email' => $request['email'],
-                    'password' => Hash::make($request['password']),
-                    'role' => $request['role'],
+        $emplyoee = new Employee();
+        $emplyoee->name = $request->input('name');
+        $emplyoee->email = $request->input('email');
+        $emplyoee->password = $request->input('password');
+        $emplyoee->role = $request->input('role');
+        $emplyoee->date_inscription = $request->input('date_inscription');
+        $emplyoee->id_department = $request->input('id_department');
 
-                ]) ;*/
+        if ($files = $request->file('image')) {
+//       dd(request()->all());
+            $destinationPath = '/images/'; // upload path
+            $profileImage = time() . "." . $files->getClientOriginalExtension();
+            $files->move(public_path('images'), $profileImage);
+            $emplyoee->image = $destinationPath . $profileImage;
+        }
 
-        Employee::create($request->all());
+        /*else {
+            return $request;
+            $employee->image = 'user.png';
+        }*/
+        $emplyoee->save();
         return redirect()->route('Entreprise.Employee.index')->with('toast_success', 'Employee is successfully saved');
     }
 

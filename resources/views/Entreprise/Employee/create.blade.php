@@ -61,10 +61,10 @@
                         <div class="main-card mb-3 card">
                             <div class="card-body">
                                 {{--                                    <h5 class="card-title">Grid Rows</h5>--}}
-                                <form method="POST" action="{{ route('Entreprise.Employee.store') }}" class="container">
+                                <form method="POST" action="{{ route('Entreprise.Employee.store') }}" class="container" enctype="multipart/form-data">
+                                    {{ csrf_field() }}
                                     {{--  partie email +adresse--}}
                                     <div class="form-row">
-                                        @csrf
                                         <div class="col-md-4">
                                             <div class="position-relative form-group">
                                                 <label for="name"> NOM </label>
@@ -84,7 +84,8 @@
                                         <div class="col-md-4">
                                             <div class="position-relative form-group">
                                                 <label for="password">Password</label>
-                                                <input type="password"  data-toggle="password" class="form-control" id="password"
+                                                <input type="password" data-toggle="password" class="form-control"
+                                                       id="password"
                                                        name="password" required>
                                             </div>
                                         </div>
@@ -133,7 +134,7 @@
                                             <input id="basic" type="text" name="skills" class="form-control">
                                         </div>
                                     </div>
-                                    {{--  role et departement--}}
+                                    {{--  row role et departement--}}
                                     <div class="form-row">
                                         <div class="col-md-4">
                                             <label for="role">
@@ -154,6 +155,7 @@
                                                 </label>
                                             </div>
                                         </div>
+                                        {{--    Département--}}
                                         <div class="col-md-6">
                                             <div class="position-relative form-group" for="id_department">
                                                 <label>Département</label>
@@ -167,8 +169,17 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        {{--/departement--}}
                                     </div>
-                                    {{--  /role et departement--}}
+                                    {{--  row role et departement--}}
+                                    {{-- image --}}
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <label for="image">File Select</label>
+                                            <input type="file" class="form-control-file @error('image') is-invalid @enderror" name="image" id="image"  value="{{ old('image') }}" name="image">
+                                        </div>
+                                    </div>
+                                    {{--/image --}}
                                     <br><br><br>
                                     <div class="d-block text-center card-footer">
                                         <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger">
@@ -190,7 +201,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/bootstrap-show-password@1.2.1/dist/bootstrap-show-password.min.js"></script>
-{{--    targify skills --}}
+    {{--    targify skills --}}
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
     <script>

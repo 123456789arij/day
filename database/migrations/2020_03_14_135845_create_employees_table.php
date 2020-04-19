@@ -24,7 +24,7 @@ class CreateEmployeesTable extends Migration
             $table->string('sex')->nullable();
             $table->integer('mobile')->nullable();
             $table->text('skills')->nullable();
-            $table->string('image')->default('default.jpg');
+            $table->string('image')->default('/images/user.png');
             $table->string('adresse')->nullable();
             $table->rememberToken();
             $table->timestamps();

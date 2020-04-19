@@ -150,15 +150,10 @@ class ProjetController extends Controller
 
     public function membre_projet(Request $request)
     {
-        /* $request->validate([
-          'name' => 'required',
-         ]);*/
-//  dd($request->all());
         $emplyeeIds = $request->input('employee_id');
         $projetId = $request->input('projet_id');
         $projet = Projet::findOrfail(2);
         $projet->employees()->sync($emplyeeIds);
-//        Projet::create($request->all());
         return redirect()->route('projet.home')->with('toast_success', 'membre is successfully saved');
     }
 

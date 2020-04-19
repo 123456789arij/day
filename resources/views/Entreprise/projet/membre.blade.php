@@ -117,7 +117,7 @@
                                         <select class="mb-2 form-control-lg form-control" name="employee_id[]" multiple>
                                           @foreach($employees as $employee)
                                                 <option
-                                                    value="{{$employee->id}}"{{ in_array($employee->id, old('employee_id') ?: []) ? 'selected' : '' }}>
+                                                    value="{{$employee->id}}"{{ in_array($employee->id,$membres->pluck('id')->toArray()) ? 'selected' : '' }}>
                                                     {{$employee->name}} </option>
                                             @endforeach
                                         </select>

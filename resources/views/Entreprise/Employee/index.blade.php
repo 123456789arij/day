@@ -1,5 +1,4 @@
 @extends('layouts.base')
-
 @section('content')
     {{-- app-page-title--}}
     <div class="app-page-title">
@@ -20,12 +19,12 @@
 
             <div class="page-title-actions">
                 <div class="d-inline-block dropdown text-center">
-                    <button class="btn-shadow mb-2 mr-2 btn btn-alternate btn-lg">
-                         <span class="btn-icon-wrapper pr-2 opacity-7">
+                    <button class="btn-shadow mb-2 mr-2 btn btn-info btn-lg">
+                        <a href="{{route('Entreprise.Employee.create')}}"
+                           style="color: white;font-size: 15px;">    <span class="btn-icon-wrapper pr-2 opacity-7">
                               <i class="fa pe-7s-add-user " style="font-size: 20px;"></i>
                           </span>
-                        <a href="{{route('Entreprise.Employee.create')}}"
-                           style="color: white;font-size: 15px;"> Ajouter un nouveau employée  </a>&nbsp;&nbsp;
+                       Ajouter un nouveau employée  </a>&nbsp;&nbsp;
                     </button>
                 </div>
             </div>
@@ -143,11 +142,11 @@
                             <td class="text-center text-muted">
                                 <div class="widget-content p-0">
                                     <div class="widget-content-wrapper">
-                                      {{--  <div class="widget-content-left mr-3">
+                                 <div class="widget-content-left mr-3">
                                             <div class="widget-content-left">
-                                                   img
+                                                <img src="{{asset($employee->image)}}"  class="rounded-circle" height="30px" width="30px" alt="im"/>
                                             </div>
-                                        </div>--}}
+                                        </div>
                                         <div class="widget-content-left flex2">
                                             <div class="widget-heading">
                                                 {{ $employee->name }}   </div>

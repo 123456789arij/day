@@ -31,10 +31,6 @@ class Employee extends Authenticatable
         $this->attributes['password'] = bcrypt($password);
     }
 
-    public function getImageAttribute()
-    {
-        return $this->image;
-    }
 
     public function department()
     {
